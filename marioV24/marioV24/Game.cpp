@@ -243,4 +243,3 @@ void Game::setupSprite()
 }
 
 
-//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
