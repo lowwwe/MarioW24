@@ -103,6 +103,8 @@ void Game::update(sf::Time t_deltaTime)
 	{
 		m_window.close();
 	}
+	checkDirection();
+	move();
 }
 
 /// <summary>
@@ -116,6 +118,38 @@ void Game::render()
 
 	
 	m_window.display();
+}
+
+void Game::move()
+{
+	sf::Vector2f movement{0.0f, 0.0f};
+	switch (m_direction)
+	{
+	case Direction::None:
+		break;
+	case Direction::Up:
+		movement.y = -1.5f;
+		break;
+	case Direction::Down:
+		break;
+	case Direction::Left:
+		break;
+	case Direction::Right:
+		break;
+	default:
+		break;
+	}
+	m_location += movement;
+	m_marioSprite.setPosition(m_location);
+}
+
+void Game::checkDirection()
+{
+	m_direction = Direction::None;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+	{
+		m_direction = Direction::Up;
+	}
 }
 
 /// <summary>
@@ -150,6 +184,10 @@ void Game::setupSprite()
 		std::cout << " problem finding mario" << std::endl;
 	}
 	m_marioSprite.setTexture(m_marioTexture);
-	m_marioSprite.setPosition(300.0f, 100.0f);
+	m_marioSprite.setTextureRect(sf::IntRect(0, 0, 64, 148)); //  use left of image to get mario
+	m_marioSprite.setPosition(m_location);
 
 }
+
+
+//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
