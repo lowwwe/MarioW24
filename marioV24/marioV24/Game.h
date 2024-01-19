@@ -36,9 +36,12 @@ private:
 
 	void processEvents();
 	void processKeys(sf::Event t_event);
+	void processKeyReleases(sf::Event t_event);
+	
 	void update(sf::Time t_deltaTime);
 	void render();
 	void move();
+	void changeCharater();
 	
 	void checkDirection();
 	void setupFontAndText();
@@ -54,6 +57,8 @@ private:
 	sf::Vector2f m_location{400.0f, 200.0f};// mario's position
 	Direction m_direction = Direction::None; // where is mario going
 	bool m_exitGame; // control exiting game
+	bool m_isMario = true; // are we mario
+	bool m_canChange = true; // can we change characters
 
 };
 

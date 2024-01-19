@@ -77,6 +77,10 @@ void Game::processEvents()
 		{
 			processKeys(newEvent);
 		}
+		if (sf::Event::KeyReleased == newEvent.type)
+		{
+			processKeyReleases(newEvent);
+		}
 	}
 }
 
@@ -90,6 +94,18 @@ void Game::processKeys(sf::Event t_event)
 	if (sf::Keyboard::Escape == t_event.key.code)
 	{
 		m_exitGame = true;
+	}
+	if ( sf::Keyboard::Space == t_event.key.code)
+	{
+		changeCharater();
+	}
+}
+
+void Game::processKeyReleases(sf::Event t_event)
+{
+	if (sf::Keyboard::Space == t_event.key.code)
+	{
+		m_canChange = true;
 	}
 }
 
@@ -131,10 +147,13 @@ void Game::move()
 		movement.y = -1.5f;
 		break;
 	case Direction::Down:
+		movement.y = 1.1f;
 		break;
 	case Direction::Left:
+		movement.x = -2.2f;
 		break;
 	case Direction::Right:
+		movement.x = 2.2f;
 		break;
 	default:
 		break;
@@ -143,13 +162,47 @@ void Game::move()
 	m_marioSprite.setPosition(m_location);
 }
 
+void Game::changeCharater()
+{
+	if (m_canChange)
+	{
+		if (m_isMario)
+		{
+			m_marioSprite.setTextureRect(sf::IntRect(64, 0, 64, 148));
+		}
+		else
+		{
+			m_marioSprite.setTextureRect(sf::IntRect(0, 0, 64, 148));
+		}
+		m_isMario = !m_isMario;
+		m_canChange = false;
+	}
+}
+
 void Game::checkDirection()
 {
 	m_direction = Direction::None;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) 
+		|| sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
 		m_direction = Direction::Up;
 	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) 
+		|| sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	{
+		m_direction = Direction::Down;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)
+		|| sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	{
+		m_direction = Direction::Left;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)
+		|| sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		m_direction = Direction::Right;
+	}
+
 }
 
 /// <summary>
